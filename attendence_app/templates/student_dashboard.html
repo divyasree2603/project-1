@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolio Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .navbar-custom { background-color: #334155; }
+        .profile-banner { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); border-radius: 12px; }
+        .card-custom { border: 1px solid #e2e8f0; border-radius: 12px; background-color: white; }
+        .badge-safe { background-color: #ccfbf1; color: #115e59; font-weight: 600; border: 1px solid #99f6e4; }
+        .badge-shortage { background-color: #ffe4e6; color: #9f1239; font-weight: 600; border: 1px solid #fecdd3; }
+        .text-safe { color: #0f766e !important; }
+        .text-shortage { color: #9f1239 !important; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-custom shadow-sm mb-4 py-3">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 fw-bold"><i class="bi bi-mortarboard me-2"></i>Academic Analytics Deck</span>
+            <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm px-3 rounded-2">Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <!-- Premium Minimalist Profile Header -->
+        <div class="p-4 p-md-5 text-white profile-banner shadow-sm mb-4">
+            <div class="col-md-12 px-0">
+                <h2 class="display-6 fw-bold">Welcome back, {{ student.user_profile.user.first_name }}</h2>
+                <p class="lead my-2 opacity-90" style="font-size: 1rem;">
+                    Roll ID: <span class="fw-semibold">{{ student.roll_number }}</span> &nbsp;|&nbsp; 
+                    Semester: <span class="fw-semibold">{{ student.semester }}</span> &nbsp;|&nbsp; 
+                    Department: <span class="fw-semibold">{{ student.user_profile.department }}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Table Summary Matrix Layout -->
+            <div class="col-lg-8">
+                <div class="card card-custom shadow-sm p-4 h-100">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Modular Analytics Overview</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr class="text-secondary small uppercase">
+                                    <th>Code</th>
+                                    <th>Course Title</th>
+                                    <th>Conducted</th>
+                                    <th>Attended</th>
+                                    <th>Aggregate Metric</th>
+                                    <th>Status Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in analytics %}
+                                <tr>
+                                    <td class="text-secondary fw-semibold">{{ record.code }}</td>
+                                    <td class="text-dark fw-medium">{{ record.name }}</td>
+                                    <td class="text-muted">{{ record.total }} hrs</td>
+                                    <td class="text-muted">{{ record.present }} hrs</td>
+                                    <td class="fw-bold {% if record.percentage < 75 %}text-shortage{% else %}text-safe{% endif %}">
+                                        {{ record.percentage }}%
+                                    </td>
+                                    <td>
+                                        {% if record.percentage < 75 %}
+                                            <span class="badge badge-shortage px-2.5 py-1.5 rounded-2">Below Threshold</span>
+                                        {% else %}
+                                            <span class="badge badge-safe px-2.5 py-1.5 rounded-2">Compliant</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Muted Corporate Visualization Engine -->
+            <div class="col-lg-4">
+                <div class="card card-custom shadow-sm p-4 h-100 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold text-dark border-bottom pb-2 mb-4">Total Apportionment</h5>
+                        <div style="max-width: 230px; margin: 0 auto;">
+                            <canvas id="attendenceOverviewChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex justify-content-center gap-2">
+                        <span class="badge badge-safe border py-2 px-3">Present Log: {{ total_present_overall }} hrs</span>
+                        <span class="badge badge-shortage border py-2 px-3">Absent Log: {{ total_absent_overall }} hrs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('attendenceOverviewChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Present Hours', 'Absent Hours'],
+                datasets: [{
+                    data: [{{ total_present_overall }}, {{ total_absent_overall }}],
+                    backgroundColor: ['#0f766e', '#9f1239'], /* Muted Corporate Teal and Deep Red Burgundy */
+                    hoverBackgroundColor: ['#115e59', '#881337'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false } /* Clean interface minimalist approach */
+                },
+                cutout: '75%'
+            }
+        });
+    </script>
+</body>
+</html>

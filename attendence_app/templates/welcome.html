@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Attendence Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .brand-text { color: #1e3a8a; font-weight: 700; }
+        .role-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -10px rgba(30, 58, 138, 0.15) !important;
+            border-color: #cbd5e1 !important;
+        }
+        .btn-admin { background-color: #475569; color: white; }
+        .btn-admin:hover { background-color: #334155; color: white; }
+        .btn-faculty { background-color: #1e3a8a; color: white; }
+        .btn-faculty:hover { background-color: #172554; color: white; }
+        .btn-student { background-color: #0f766e; color: white; }
+        .btn-student:hover { background-color: #115e59; color: white; }
+    </style>
+</head>
+<body class="d-flex align-items-center" style="min-height: 100vh;">
+
+    <div class="container py-5">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-md-9">
+                <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill mb-3 fw-semibold text-uppercase tracking-wider" style="font-size: 0.75rem; border: 1px solid #cbd5e1;">Institutional Framework</span>
+                <h1 class="brand-text display-5 mb-3">Automated Student Attendence<br><span class="text-secondary fw-semibold">Monitoring & Analytics System</span></h1>
+                <p class="text-muted mx-auto" style="max-width: 600px;">Welcome to the centralized campus verification engine. Please authenticate by selecting your dedicated dashboard interface below.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- 1. Admin/HOD Desk -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center bg-white role-card p-4 shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="mb-4 text-secondary opacity-75">
+                                <i class="bi bi-shield-check" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Administration Desk</h5>
+                            <p class="text-muted small">Access core institutional registries, departmental masters, master schedules, and comprehensive compliance analytics logs.</p>
+                        </div>
+                        <a href="{% url 'login' %}?role=admin" class="btn btn-admin w-100 py-2.5 mt-4 fw-semibold rounded-3 shadow-sm">Launch Admin Panel</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Faculty Desk -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center bg-white role-card p-4 shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="mb-4" style="color: #1e3a8a;">
+                                <i class="bi bi-clipboard2-check" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Faculty Workstation</h5>
+                            <p class="text-muted small">Execute structural batch tracking, update daily verification sheets, organize lecture matrix blocks, and download records.</p>
+                        </div>
+                        <a href="{% url 'login' %}?role=faculty" class="btn btn-faculty w-100 py-2.5 mt-4 fw-semibold rounded-3 shadow-sm">Launch Workstation</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Student Desk -->
+            <div class="col-md-4">
+                <div class="card h-100 text-center bg-white role-card p-4 shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="mb-4" style="color: #0f766e;">
+                                <i class="bi bi-person-badge" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Student Portfolio</h5>
+                            <p class="text-muted small">Review complete personalized aggregate metrics, examine interactive subject progress charts, and verify academic safety margins.</p>
+                        </div>
+                        <a href="{% url 'login' %}?role=student" class="btn btn-student w-100 py-2.5 mt-4 fw-semibold rounded-3 shadow-sm">Launch Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
